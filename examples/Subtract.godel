@@ -1,0 +1,54 @@
+# Будем кодировать целые числа следующим образом:
+# x >= 0: encode(x) := 2x
+# x < 0: encode(x) := -2x - 1
+
+# if x then y else z
+# x > 0 -> return y
+# x == 0 -> return z
+ifThenElse = (Recur id2_2 id3_4)
+
+not = (Compose ifThenElse id1_1 0_1 1_1)
+and = (Compose ifThenElse id1_2 id2_2 0_2)
+or = (Compose ifThenElse id1_2 1_2 id2_2)
+
+sum = (Recur id1_1 (Compose succ id1_3))
+multiply = (Recur 0_1 (Compose sum id1_3 id3_3))
+
+# max(0, a - 1)
+-1 = (Recur 0_0 id2_2)
+
+# max(0, b - a)
+-a = (Recur id1_1 (Compose -1 id1_1))
+
+# think about it
+< = -a
+
+> = (Compose < id2_2 id1_2)
+
+equal = (Compose and (Compose not <) (Compose not >))
+
+# n -> 2n
+*2 = (Recur 0_0 (Compose (Compose succ succ) id1_2))
+
+# n -> n mod 2
+mod2 = (Recur 0_0 (Compose not id1_2))
+
+# n -> n div 2
+div2 = (Recur 0_0 (Compose ifThenElse (Compose mod2 id2_2) (Compose succ id1_2) id1_2))
+
+# x -> -x
+unaryMinus = (Compose ifThenElse mod2 succ -1)
+
+# y >= 0: x +_ y == (n/2) + (m/2) == (n+m)/2 -> return n + m
+# y < 0: x +_ y == (n/2) - (m+1)/2 == (n - m - 1)/2
+# y < 0, n > m: x +_ y == (n - m - 1)/2 -> return n - m - 1
+# y < 0, n <= m: x +_ y == -(m - n + 1)/2 -> return m - n
++_ = (Compose ifThenElse (Compose mod2 id2_2) sum (Compose ifThenElse > (Compose -a (Compose succ id2_2) id1_2) -a))
+
+# x >= 0: x + y == x +_ y
+# x < 0: x + y == -(-x +_ -y)
++ = (Compose ifThenElse (Compose mod2 id1_2) +_ (Compose unaryMinus (Compose +_ (Compose unaryMinus id1_2) (Compose unaryMinus id2_2))))
+
+- = (Compose + id1_2 (Compose unaryMinus id2_2))
+
+main = -

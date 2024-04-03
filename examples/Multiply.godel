@@ -1,0 +1,4 @@
+sum = (Recur id1_1 (Compose succ id1_3))
+multiply = (Recur 0_1 (Compose sum id1_3 id3_3))
+
+main = multiply

@@ -1,0 +1,35 @@
+ifThenElse = (Recur id2_2 id3_4)
+not = (Compose ifThenElse id1_1 0_1 1_1)
+and = (Compose ifThenElse id1_2 id2_2 0_2)
+or = (Compose ifThenElse id1_2 1_2 id2_2)
+
+# max(0, a - 1)
+-1 = (Recur 0_0 id2_2)
+
+# max(0, b - a)
+-a = (Recur id1_1 (Compose -1 id1_1))
+
+# think about it
+< = -a
+
+> = (Compose < id2_2 id1_2)
+
+equal = (Compose and (Compose not <) (Compose not >))
+
+# 0 <= n <= m
+# simpleMod(n, m) == n mod m
+simpleMod = (ifThenElse equal 0_2 id1_2)
+
+mod = (Recur 0_1 (Compose simpleMod (Compose succ id1_3) id3_3))
+
+# 0 <= i <= n
+# isDivisibleByNontrivial(n, i) <=> (i >= 2) and (n % i == 0)
+isDivisibleByNontrivial = (Compose and (Compose < 1_2 id2_2) (Compose not mod))
+
+# 0 <= k <= n
+# isDivisibleByPrefix(k, n) <=> exists i < k: isDivisibleByNontrivial(i, n)
+isDivisibleByPrefix = (Recur 0_1 (Compose or id1_3 (Compose isDivisibleByNontrivial id3_3 id2_3)))
+
+isPrime = (Compose and (Compose < 1_1 id1_1) (Compose isDivisibleByPrefix id1_1 id1_1))
+
+main = isPrime
