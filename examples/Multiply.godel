@@ -1,4 +1,9 @@
 sum = (Recur id1_1 (Compose succ id1_3))
+# sum(0, y) = y
+# sum(x + 1, y) = sum(x, y) + 1
+
 multiply = (Recur 0_1 (Compose sum id1_3 id3_3))
+# multiply(0, y) = 0
+# multiply(x + 1, y) = sum(multiply(x, y), y)
 
 main = multiply

@@ -1,13 +1,20 @@
 ifThenElse = (Recur id2_2 id3_4)
+# ifThenElse(0, y, z) = z
+# ifThenElse(x + 1, y, z) = y
+
 not = (Compose ifThenElse id1_1 0_1 1_1)
 and = (Compose ifThenElse id1_2 id2_2 0_2)
 or = (Compose ifThenElse id1_2 1_2 id2_2)
 
 # max(0, a - 1)
 -1 = (Recur 0_0 id2_2)
+# -1(0) = 0
+# -1(x + 1) = x
 
 # max(0, b - a)
 -a = (Recur id1_1 (Compose -1 id1_1))
+# -a(0, y) = y
+# -a(x + 1, y) = -1(-a(x, y))
 
 # think about it
 < = -a
@@ -21,6 +28,8 @@ equal = (Compose and (Compose not <) (Compose not >))
 simpleMod = (ifThenElse equal 0_2 id1_2)
 
 mod = (Recur 0_1 (Compose simpleMod (Compose succ id1_3) id3_3))
+# mod(0, y) = 0
+# mod(x + 1, y) = simpleMod(mod(x, y) + 1, y)
 
 # 0 <= i <= n
 # isDivisibleByNontrivial(n, i) <=> (i >= 2) and (n % i == 0)
@@ -29,6 +38,8 @@ isDivisibleByNontrivial = (Compose and (Compose < 1_2 id2_2) (Compose not mod))
 # 0 <= k <= n
 # isDivisibleByPrefix(k, n) <=> exists i < k: isDivisibleByNontrivial(i, n)
 isDivisibleByPrefix = (Recur 0_1 (Compose or id1_3 (Compose isDivisibleByNontrivial id3_3 id2_3)))
+# isDivisibleByPrefix(0, y) = 0
+# isDivisibleByPrefix(x + 1, y) = or(isDivisibleByPrefix(x, y), isDivisibleByNontrivial(y, x))
 
 isPrime = (Compose and (Compose < 1_1 id1_1) (Compose isDivisibleByPrefix id1_1 id1_1))
 

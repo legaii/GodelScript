@@ -6,19 +6,29 @@
 # x > 0 -> return y
 # x == 0 -> return z
 ifThenElse = (Recur id2_2 id3_4)
+# ifThenElse(0, y, z) = z
+# ifThenElse(x + 1, y, z) = y
 
 not = (Compose ifThenElse id1_1 0_1 1_1)
 and = (Compose ifThenElse id1_2 id2_2 0_2)
 or = (Compose ifThenElse id1_2 1_2 id2_2)
 
 sum = (Recur id1_1 (Compose succ id1_3))
+# sum(0, y) = y
+# sum(x + 1, y) = sum(x, y) + 1
 multiply = (Recur 0_1 (Compose sum id1_3 id3_3))
+# multiply(0, y) = 0
+# multiply(x + 1, y) = sum(multiply(x, y), y)
 
 # max(0, a - 1)
 -1 = (Recur 0_0 id2_2)
+# -1(0) = 0
+# -1(x + 1) = x
 
 # max(0, b - a)
 -a = (Recur id1_1 (Compose -1 id1_1))
+# -a(0, y) = y
+# -a(x + 1, y) = -1(-a(x, y))
 
 # think about it
 < = -a
@@ -29,12 +39,18 @@ equal = (Compose and (Compose not <) (Compose not >))
 
 # n -> 2n
 *2 = (Recur 0_0 (Compose (Compose succ succ) id1_2))
+# *2(0) = 0
+# *2(x + 1) = *2(x) + 1 + 1
 
 # n -> n mod 2
 mod2 = (Recur 0_0 (Compose not id1_2))
+# mod2(0) = 0
+# mod2(x + 1) = not(mod2(x))
 
 # n -> n div 2
 div2 = (Recur 0_0 (Compose ifThenElse (Compose mod2 id2_2) (Compose succ id1_2) id1_2))
+# div2(0) = 0
+# div2(x + 1) = ifThenElse(mod2(x), div2(x) + 1, div2(x))
 
 # x -> -x
 unaryMinus = (Compose ifThenElse mod2 succ -1)
