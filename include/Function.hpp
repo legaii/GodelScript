@@ -11,7 +11,7 @@ class Function {
     Function(std::size_t arity) : arity{arity} {
     }
 
-    virtual ~Function() = 0;
+    virtual ~Function() = default;
     virtual uint64_t eval(const std::vector<uint64_t>& args) const = 0;
 
     std::size_t getArity() const {

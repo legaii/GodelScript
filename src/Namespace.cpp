@@ -1,15 +1,20 @@
 #include "Namespace.hpp"
-
-#include <iostream>  //TODO
+#include "Expression.hpp"
+#include "SymbolQueue.hpp"
 
 
 void Namespace::readFrom(std::istream& input) {
-  for (std::string s; std::getline(input, s);) {
-    std::cout << "$: " << s << std::endl;
+  SymbolQueue symbols;
+  symbols.readFrom(input);
+  while (!symbols.empty()) {
+    std::string newName = Expression::readFrom(symbols).getName();
+    Expression::readFrom(symbols);
+    namedFunctions[newName] = Expression::readFrom(symbols).parse(*this);
   }
 }
 
 
 std::shared_ptr<Function> Namespace::getNamedFunction(const std::string& name) const {
-  return nullptr;
+  auto iter = namedFunctions.find(name);
+  return iter == namedFunctions.end() ? nullptr : iter->second;
 }
