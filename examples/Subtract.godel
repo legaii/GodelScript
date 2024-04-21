@@ -52,18 +52,21 @@ div2 = (Recur 0_0 (Compose ifThenElse (Compose mod2 id2_2) (Compose succ id1_2) 
 # div2(0) = 0
 # div2(x + 1) = ifThenElse(mod2(x), div2(x) + 1, div2(x))
 
+isNonnegative = (Compose not mod2)
+
 # x -> -x
 unaryMinus = (Compose ifThenElse mod2 succ -1)
 
+# assert x >= 0
 # y >= 0: x +_ y == (n/2) + (m/2) == (n+m)/2 -> return n + m
 # y < 0: x +_ y == (n/2) - (m+1)/2 == (n - m - 1)/2
 # y < 0, n > m: x +_ y == (n - m - 1)/2 -> return n - m - 1
 # y < 0, n <= m: x +_ y == -(m - n + 1)/2 -> return m - n
-+_ = (Compose ifThenElse (Compose mod2 id2_2) sum (Compose ifThenElse > (Compose -a (Compose succ id2_2) id1_2) -a))
++_ = (Compose ifThenElse (Compose isNonnegative id2_2) sum (Compose ifThenElse > (Compose -a (Compose succ id2_2) id1_2) -a))
 
 # x >= 0: x + y == x +_ y
 # x < 0: x + y == -(-x +_ -y)
-+ = (Compose ifThenElse (Compose mod2 id1_2) +_ (Compose unaryMinus (Compose +_ (Compose unaryMinus id1_2) (Compose unaryMinus id2_2))))
++ = (Compose ifThenElse (Compose isNonnegative id1_2) +_ (Compose unaryMinus (Compose +_ (Compose unaryMinus id1_2) (Compose unaryMinus id2_2))))
 
 - = (Compose + id1_2 (Compose unaryMinus id2_2))
 

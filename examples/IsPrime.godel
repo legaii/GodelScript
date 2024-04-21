@@ -25,7 +25,7 @@ equal = (Compose and (Compose not <) (Compose not >))
 
 # 0 <= n <= m
 # simpleMod(n, m) == n mod m
-simpleMod = (ifThenElse equal 0_2 id1_2)
+simpleMod = (Compose ifThenElse equal 0_2 id1_2)
 
 mod = (Recur 0_1 (Compose simpleMod (Compose succ id1_3) id3_3))
 # mod(0, y) = 0
@@ -41,6 +41,6 @@ isDivisibleByPrefix = (Recur 0_1 (Compose or id1_3 (Compose isDivisibleByNontriv
 # isDivisibleByPrefix(0, y) = 0
 # isDivisibleByPrefix(x + 1, y) = or(isDivisibleByPrefix(x, y), isDivisibleByNontrivial(y, x))
 
-isPrime = (Compose and (Compose < 1_1 id1_1) (Compose isDivisibleByPrefix id1_1 id1_1))
+isPrime = (Compose and (Compose < 1_1 id1_1) (Compose not (Compose isDivisibleByPrefix id1_1 id1_1)))
 
 main = isPrime
