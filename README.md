@@ -1,3 +1,11 @@
+## Как запустить?
+* ```mkdir build```
+* ```cd build```
+* ```cmake ..```
+* ```cmake --build .```
+* ```sudo cmake --install .```
+* Теперь на Вашем устройстве установлена команда ```godel```
+
 ## Определение общерекурсивной функции
 В GödelScript общерекурсивная функция определяется так же, как и на [Википедии](https://en.wikipedia.org/wiki/General_recursive_function).
 
