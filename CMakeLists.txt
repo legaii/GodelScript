@@ -32,6 +32,10 @@ add_library(godel_lib
 
 target_include_directories(godel_lib PUBLIC include)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_subdirectory(tests)
+endif()
+
 add_executable(godel src/Main.cpp)
 target_link_libraries(godel godel_lib)
 

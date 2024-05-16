@@ -34,4 +34,5 @@ void SymbolQueue::readFrom(std::istream& input) {
       currentSymbol.push_back(c);
     }
   }
+  finishCurrentSymbol();
 }
