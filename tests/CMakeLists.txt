@@ -8,7 +8,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-set(TEST_NAMES SymbolQueueTest ExpressionTest)
+set(TEST_NAMES SymbolQueueTest ExpressionTest ExamplesTest)
 add_custom_target(test)
 
 include(GoogleTest)

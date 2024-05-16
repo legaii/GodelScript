@@ -9,6 +9,7 @@
 * ```mkdir build && cd build```
 * ```cmake .. -DCMAKE_BUILD_TYPE=Debug```
 * ```make test```
+* Примечание: тесты (особенно isPrime) могут работать долго.
 
 ## Определение общерекурсивной функции
 В GödelScript общерекурсивная функция определяется так же, как и на [Википедии](https://en.wikipedia.org/wiki/General_recursive_function).
